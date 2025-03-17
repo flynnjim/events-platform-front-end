@@ -1,0 +1,27 @@
+h1 {
+  font-size: 3.2rem;
+  padding: 0.5rem;
+  color: red;
+}
+
+.header-signin {
+  font-size: 2.4rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid black;
+}
+
+.signin-link:link,
+.signin-link:visited {
+  text-decoration: none;
+  color: black;
+}
+
+.signin-link:hover,
+.signin-link:active {
+  color: red;
+}
