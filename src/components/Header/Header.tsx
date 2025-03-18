@@ -1,5 +1,6 @@
 import "./Header.css";
 import { IoLogInOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -7,9 +8,9 @@ const Header = () => {
       <h1>EventRight</h1>
       <div className="header-signin">
         <p>
-          <a href="#" className="signin-link">
+          <Link to="/login" className="signin-link">
             <IoLogInOutline className="icon" />
-          </a>
+          </Link>
         </p>
       </div>
     </div>

@@ -1,0 +1,36 @@
+.navigation-header {
+  background-color: #fce9e9;
+}
+
+.navigation-menu {
+  margin: 0;
+  list-style: none;
+  display: flex;
+  justify-content: start;
+  gap: 2rem;
+  cursor: pointer;
+  padding: 1rem;
+  align-items: center;
+}
+
+.navigation-menu > *:not(:last-child) {
+  border-right: 2px solid rgba(0, 0, 0, 0.1);
+  padding-right: 1rem;
+}
+
+.navigation-menu a:link,
+.navigation-menu a:visited {
+  text-decoration: none;
+  color: #333;
+  font-size: 2rem;
+  display: inline-block;
+}
+
+.navigation-menu a:hover,
+.navigation-menu a:active {
+  box-shadow: inset 0 -2px 0 #333;
+}
+
+.nav-link {
+  color: #333;
+}
