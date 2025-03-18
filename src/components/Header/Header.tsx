@@ -1,4 +1,5 @@
 import "./Header.css";
+import { IoLogInOutline } from "react-icons/io5";
 
 const Header = () => {
   return (
@@ -7,7 +8,7 @@ const Header = () => {
       <div className="header-signin">
         <p>
           <a href="#" className="signin-link">
-            Sign In
+            <IoLogInOutline className="icon" />
           </a>
         </p>
       </div>
