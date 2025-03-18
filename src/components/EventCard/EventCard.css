@@ -1,0 +1,33 @@
+.event-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.event-card-details {
+  padding: 1rem;
+  color: #333;
+  text-decoration: none;
+}
+
+.event-card-link {
+  text-decoration: none;
+}
+
+.details-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  gap: 2rem;
+  font-size: 2rem;
+}
+
+.tech-icon,
+.sport-icon,
+.culture-icon {
+  font-size: 8.2rem;
+}
+
+.card-description {
+  font-size: 1.6rem;
+}
