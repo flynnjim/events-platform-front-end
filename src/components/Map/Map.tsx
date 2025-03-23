@@ -20,6 +20,7 @@ const CenterMapOnPopup: React.FC<{
 };
 
 const Map: React.FC<MapProps> = ({ location }) => {
+  console.log(location);
   return (
     <>
       {/* <h1>hi</h1> */}
