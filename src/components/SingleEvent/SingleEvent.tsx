@@ -4,9 +4,8 @@ import { getSingleEvent } from "../../../api";
 import { useParams } from "react-router-dom";
 import { Event } from "../../types/types";
 import Map from "../Map/Map";
-import "./SingleEvent.css";
-
 import { formatEventTimeRange } from "../../utils/formatEventTime";
+import { getGoogleCalendarLink } from "../../utils/calendarUtils";
 
 const SingleEvent: React.FC = () => {
   const [eventData, setEventData] = useState<Event | null>(null);
@@ -17,9 +16,7 @@ const SingleEvent: React.FC = () => {
       const id = parseInt(event_id, 10);
       if (!isNaN(id)) {
         getSingleEvent(id)
-          .then((response) => {
-            setEventData(response);
-          })
+          .then((response) => setEventData(response))
           .catch((error) => console.error("Error fetching event:", error));
       }
     }
@@ -28,6 +25,20 @@ const SingleEvent: React.FC = () => {
   if (!eventData) {
     return <p>Loading...</p>;
   }
+
+  const start = new Date(eventData.start_time);
+  const end = new Date(eventData.end_time);
+
+  const handleAddToCalendar = () => {
+    const calendarLink = getGoogleCalendarLink(
+      eventData.title,
+      eventData.description,
+      eventData.address,
+      start,
+      end
+    );
+    window.open(calendarLink, "_blank");
+  };
 
   return (
     <div className="single-event-container">
@@ -43,6 +54,10 @@ const SingleEvent: React.FC = () => {
           <Map location={eventData.location} />
         </div>
       )}
+
+      <div className="calendar-buttons">
+        <button onClick={handleAddToCalendar}>Add to Calendar</button>
+      </div>
     </div>
   );
 };
