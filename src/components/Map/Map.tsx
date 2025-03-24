@@ -20,10 +20,8 @@ const CenterMapOnPopup: React.FC<{
 };
 
 const Map: React.FC<MapProps> = ({ location }) => {
-  console.log(location);
   return (
     <>
-      {/* <h1>hi</h1> */}
       <MapContainer
         className="map-container"
         center={[location.latitude, location.longitude]}

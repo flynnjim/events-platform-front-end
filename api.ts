@@ -1,6 +1,6 @@
 import axios from "axios";
 import { AxiosResponse } from "axios";
-import { Event } from "./src/types/types";
+import { Event, User } from "./src/types/types";
 
 const BACKEND_API = import.meta.env.VITE_BACKEND_API_URL;
 
@@ -22,6 +22,18 @@ export const getSingleEvent = async (event_id: number): Promise<Event> => {
     return response.data.event;
   } catch (error) {
     console.error("Error fetching event:", error);
+    throw error;
+  }
+};
+
+export const getRegisteredUsers = async (event_id: number): Promise<User[]> => {
+  try {
+    const response: AxiosResponse<{ users: User[] }> = await eventRightApi.get(
+      `/users/registered/${event_id}`
+    );
+    return response.data.users;
+  } catch (error) {
+    console.error("Error fetching registered users:", error);
     throw error;
   }
 };
