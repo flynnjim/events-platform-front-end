@@ -32,7 +32,10 @@ export const getRegisteredUsers = async (event_id: number): Promise<User[]> => {
       `/users/registered/${event_id}`
     );
     return response.data.users;
-  } catch (error) {
+  } catch (error: any) {
+    if (error.response && error.response.status === 404) {
+      return [];
+    }
     console.error("Error fetching registered users:", error);
     throw error;
   }
@@ -98,6 +101,26 @@ export const registerEvent = async (
     return response.data;
   } catch (error) {
     console.error("Error registering for event:", error);
+    throw error;
+  }
+};
+
+export const patchEvent = async (
+  user_id: number,
+  status: string
+): Promise<any> => {
+  const body = {
+    user_id,
+    status,
+  };
+  try {
+    const response: AxiosResponse<any> = await eventRightApi.patch(
+      "/registration",
+      body
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error changing event registration:", error);
     throw error;
   }
 };

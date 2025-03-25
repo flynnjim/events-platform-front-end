@@ -6,6 +6,7 @@ import {
   getSingleEvent,
   getRegisteredUsers,
   registerEvent,
+  patchEvent,
 } from "../../../api";
 import Map from "../Map/Map";
 import { formatEventTimeRange } from "../../utils/formatEventTime";
@@ -38,7 +39,7 @@ const SingleEvent: React.FC = () => {
       if (!isNaN(id)) {
         getRegisteredUsers(id)
           .then((users) => {
-            setRegisteredUsers(users);
+            setRegisteredUsers(users ?? []);
             setUsersLoading(false);
           })
           .catch((error) => {
@@ -71,13 +72,49 @@ const SingleEvent: React.FC = () => {
   const handleAttendEvent = async () => {
     if (!user) return;
     const eventID = parseInt(event_id!, 10);
+
+    if (
+      !registeredUsers.some((attendee) => attendee.user_id === user.user_id)
+    ) {
+      setRegisteredUsers((prev) => [...prev, user]);
+    }
+
     try {
       const result = await registerEvent(user.user_id, eventID);
       console.log("Registration successful:", result);
+      const updatedUsers = await getRegisteredUsers(eventID);
+      setRegisteredUsers(updatedUsers ?? []);
     } catch (error) {
       console.error("Error registering for event:", error);
+      setRegisteredUsers((prev) =>
+        prev.filter((attendee) => attendee.user_id !== user.user_id)
+      );
     }
   };
+
+  const handleCancelEvent = async () => {
+    if (!user) return;
+    const eventID = parseInt(event_id!, 10);
+
+    setRegisteredUsers((prev) =>
+      prev.filter((attendee) => attendee.user_id !== user.user_id)
+    );
+
+    try {
+      const result = await patchEvent(user.user_id, "Cancelled");
+      console.log("Cancellation successful:", result);
+      const updatedUsers = await getRegisteredUsers(eventID);
+      setRegisteredUsers(updatedUsers ?? []);
+    } catch (error) {
+      console.error("Error cancelling registration:", error);
+      const updatedUsers = await getRegisteredUsers(eventID);
+      setRegisteredUsers(updatedUsers ?? []);
+    }
+  };
+
+  const alreadyAttending: boolean = user
+    ? registeredUsers.some((attendee) => attendee.username === user.username)
+    : false;
 
   return (
     <div className="single-event-container">
@@ -99,9 +136,20 @@ const SingleEvent: React.FC = () => {
       </div>
 
       {user && !isStaff && (
-        <div className="attend-event">
-          <button className="login-button" onClick={handleAttendEvent}>
+        <div className="attendance-buttons">
+          <button
+            className="login-button"
+            disabled={alreadyAttending}
+            onClick={handleAttendEvent}
+          >
             Attend Event
+          </button>
+          <button
+            className="login-button"
+            disabled={!alreadyAttending}
+            onClick={handleCancelEvent}
+          >
+            Cancel Attendance
           </button>
         </div>
       )}
@@ -114,14 +162,15 @@ const SingleEvent: React.FC = () => {
           <p>{usersError}</p>
         ) : registeredUsers.length > 0 ? (
           <ul>
-            {registeredUsers.map((user) => (
-              <li key={user.user_id}>
-                {user.first_name} {user.last_name} (<em>{user.username}</em>)
+            {registeredUsers.map((attendee) => (
+              <li key={attendee.user_id}>
+                {attendee.first_name} {attendee.last_name} (
+                <em>{attendee.username}</em>)
               </li>
             ))}
           </ul>
         ) : (
-          <p>No users registered for this event.</p>
+          <p>Currently no one signed up.</p>
         )}
       </div>
     </div>
