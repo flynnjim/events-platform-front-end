@@ -59,24 +59,45 @@ export const loginStaff = async (
   password: string
 ): Promise<User> => {
   try {
-    // Adjust the response type to reflect your actual API structure.
     const response: AxiosResponse<{ staff: any }> = await eventRightApi.post(
       "/staff/login",
       { email, password }
     );
     const staffData = response.data.staff;
-    // Map the staff object to match the User interface
+
     const userData: User = {
-      user_id: staffData.staff_id, // map staff_id to user_id
+      user_id: staffData.staff_id,
       first_name: staffData.first_name,
       last_name: staffData.last_name,
-      username: staffData.email, // using email as username; adjust if needed
+      username: staffData.email,
       email: staffData.email,
       password_hash: staffData.password_hash,
     };
     return userData;
   } catch (error) {
     console.error("Error logging in staff:", error);
+    throw error;
+  }
+};
+
+export const registerEvent = async (
+  user_id: number,
+  event_id: number
+): Promise<any> => {
+  const body = {
+    user_id,
+    event_id,
+    registration_date: Date.now(),
+    status: "Confirmed",
+  };
+  try {
+    const response: AxiosResponse<any> = await eventRightApi.post(
+      "/registration",
+      body
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error registering for event:", error);
     throw error;
   }
 };
