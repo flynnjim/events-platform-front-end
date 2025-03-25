@@ -17,6 +17,7 @@ const App: React.FC = () => {
         <Navigation />
         <Routes>
           <Route path="/" element={<DisplayAllEvents />} />
+          <Route path="/events/:category" element={<DisplayAllEvents />} />
           <Route path="/event/:event_id" element={<SingleEvent />} />
           <Route path="/map" element={<FullMap />} />
           <Route path="/login" element={<Login />} />

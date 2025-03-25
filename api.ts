@@ -8,8 +8,14 @@ const eventRightApi = axios.create({
   baseURL: BACKEND_API,
 });
 
-export const getAllEvents = () => {
-  return eventRightApi.get("/events").then(({ data }) => {
+export const getAllEvents = (category: string | undefined) => {
+  let baseString = "/events";
+  if (category) {
+    const validCategory =
+      category.charAt(0).toUpperCase() + category.slice(1).toLowerCase();
+    baseString += `?category=${validCategory}`;
+  }
+  return eventRightApi.get(baseString).then(({ data }) => {
     return data.events;
   });
 };
