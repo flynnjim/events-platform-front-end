@@ -2,10 +2,15 @@ import "./SingleEvent.css";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Event, User } from "../../types/types";
-import { getSingleEvent, getRegisteredUsers } from "../../../api";
+import {
+  getSingleEvent,
+  getRegisteredUsers,
+  registerEvent,
+} from "../../../api";
 import Map from "../Map/Map";
 import { formatEventTimeRange } from "../../utils/formatEventTime";
 import { getGoogleCalendarLink } from "../../utils/calendarUtils";
+import { useAuth } from "../../contexts/AuthContex";
 
 const SingleEvent: React.FC = () => {
   const [eventData, setEventData] = useState<Event | null>(null);
@@ -14,6 +19,7 @@ const SingleEvent: React.FC = () => {
   const [usersError, setUsersError] = useState<string | null>(null);
 
   const { event_id } = useParams<{ event_id: string }>();
+  const { user, isStaff } = useAuth();
 
   useEffect(() => {
     if (event_id) {
@@ -62,6 +68,17 @@ const SingleEvent: React.FC = () => {
     window.open(calendarLink, "_blank");
   };
 
+  const handleAttendEvent = async () => {
+    if (!user) return;
+    const eventID = parseInt(event_id!, 10);
+    try {
+      const result = await registerEvent(user.user_id, eventID);
+      console.log("Registration successful:", result);
+    } catch (error) {
+      console.error("Error registering for event:", error);
+    }
+  };
+
   return (
     <div className="single-event-container">
       <h1 className="single-event-header">{eventData.title}</h1>
@@ -80,6 +97,14 @@ const SingleEvent: React.FC = () => {
       <div className="calendar-buttons">
         <button onClick={handleAddToCalendar}>Add to Calendar</button>
       </div>
+
+      {user && !isStaff && (
+        <div className="attend-event">
+          <button className="login-button" onClick={handleAttendEvent}>
+            Attend Event
+          </button>
+        </div>
+      )}
 
       <div className="registered-users-section">
         <h2>Who's going?</h2>
