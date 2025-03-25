@@ -2,8 +2,11 @@ import "./DisplayAllEvents.css";
 import { useState, useEffect } from "react";
 import { getAllEvents } from "../../../api";
 import EventCard from "../EventCard/EventCard";
+// import { useAuth } from "../../contexts/AuthContex";
 
 const DisplayAllEvents = () => {
+  // const { user, isStaff } = useAuth();
+  // console.log(user, isStaff);
   const [eventData, setEventData] = useState([]);
 
   useEffect(() => {

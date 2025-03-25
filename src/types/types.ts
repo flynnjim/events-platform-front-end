@@ -32,3 +32,10 @@ export interface Location {
 export interface MapProps {
   location: Location;
 }
+
+export interface AuthContextProps {
+  user: User | null;
+  isStaff: boolean;
+  setUser: (user: User | null) => void;
+  setIsStaff: (isStaff: boolean) => void;
+}
