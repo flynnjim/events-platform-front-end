@@ -1,0 +1,119 @@
+.container {
+  max-width: 400px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.loggedIn {
+  text-align: center;
+}
+
+.welcome {
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.logoutButton {
+  padding: 0.8rem 1.2rem;
+  font-size: 1.6rem;
+  background-color: #ce1d1d;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logoutButton:hover {
+  background-color: #a71a1a;
+}
+
+.formWrapper {
+  width: 100%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+.input,
+.select {
+  padding: 0.8rem;
+  font-size: 1.6rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+.input:focus,
+.select:focus {
+  outline: none;
+  border-color: #ce1d1d;
+}
+
+.submitButton {
+  padding: 1rem;
+  font-size: 1.8rem;
+  background-color: #ce1d1d;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.submitButton:hover {
+  background-color: #a71a1a;
+  transform: translateY(-2px);
+}
+
+.error {
+  color: #ce1d1d;
+  font-family: "Open Sans", sans-serif;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+@media (max-width: 480px) {
+  .container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+  .title {
+    font-size: 2rem;
+  }
+  .input,
+  .select {
+    font-size: 1.4rem;
+  }
+  .submitButton {
+    font-size: 1.6rem;
+  }
+}

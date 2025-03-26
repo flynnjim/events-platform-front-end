@@ -1,0 +1,66 @@
+.cardLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.cardDetails {
+  padding: 1.5rem;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2rem;
+  margin: 0;
+  color: #333;
+}
+
+.iconContainer {
+  font-size: 2.2rem;
+  color: #ce1d1d;
+}
+
+.description {
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.6rem;
+  color: #555;
+  margin-top: 1rem;
+}
+
+.cardMap {
+  height: 200px;
+}
+
+@media (min-width: 768px) {
+  .card {
+    flex-direction: row;
+  }
+  .cardDetails {
+    flex: 1;
+    padding: 2rem;
+  }
+  .cardMap {
+    flex: 1;
+    height: auto;
+  }
+}
