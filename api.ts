@@ -130,3 +130,20 @@ export const patchEvent = async (
     throw error;
   }
 };
+
+/**
+ * Posts event data to the backend.
+ * @param created_by The id of the user creating the event.
+ * @param eventData The event details (without event_id or created_by).
+ * @returns A promise resolving with the created Event.
+ */
+export const createEvent = async (
+  created_by: number,
+  eventData: Omit<Event, "event_id" | "created_by">
+): Promise<Event> => {
+  const response: AxiosResponse<{ event: Event }> = await eventRightApi.post(
+    `/events/${created_by}`,
+    eventData
+  );
+  return response.data.event;
+};

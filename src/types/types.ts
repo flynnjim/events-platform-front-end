@@ -39,3 +39,17 @@ export interface AuthContextProps {
   setUser: (user: User | null) => void;
   setIsStaff: (isStaff: boolean) => void;
 }
+
+export interface NewEventData {
+  title: string;
+  description: string;
+  event_type: string;
+  details: string;
+  address: string;
+  start_time: number;
+  end_time: number;
+  location: {
+    latitude: number;
+    longitude: number;
+  };
+}
