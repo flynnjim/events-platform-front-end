@@ -1,5 +1,4 @@
-import "./SingleEvent.css";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Event, User } from "../../types/types";
 import {
@@ -12,6 +11,7 @@ import Map from "../Map/Map";
 import { formatEventTimeRange } from "../../utils/formatEventTime";
 import { getGoogleCalendarLink } from "../../utils/calendarUtils";
 import { useAuth } from "../../contexts/AuthContex";
+import styles from "./SingleEvent.module.css";
 
 const SingleEvent: React.FC = () => {
   const [eventData, setEventData] = useState<Event | null>(null);
@@ -52,7 +52,12 @@ const SingleEvent: React.FC = () => {
   }, [event_id]);
 
   if (!eventData) {
-    return <p>Loading event details...</p>;
+    return (
+      <div className={styles.loadingContainer}>
+        <div className={styles.spinner}></div>
+        <p className={styles.loadingText}>Loading event details...</p>
+      </div>
+    );
   }
 
   const start = new Date(eventData.start_time);
@@ -117,41 +122,45 @@ const SingleEvent: React.FC = () => {
     : false;
 
   return (
-    <div className="single-event-container">
-      <h1 className="single-event-header">{eventData.title}</h1>
-      <p className="event-time">
+    <div className={styles.container}>
+      <h1 className={styles.title}>{eventData.title}</h1>
+      <p className={styles.time}>
         {formatEventTimeRange(eventData.start_time, eventData.end_time)}
       </p>
-      <p className="event-address">{eventData.address}</p>
-      <p className="event-description">{eventData.description}</p>
-      <p className="event-details">{eventData.details}</p>
-      {eventData?.location && (
-        <div className="map-wrapper">
+      <p className={styles.address}>{eventData.address}</p>
+      <p className={styles.description}>{eventData.description}</p>
+      <p className={styles.details}>{eventData.details}</p>
+      {eventData.location && (
+        <div className={styles.mapWrapper}>
           <Map location={eventData.location} />
         </div>
       )}
 
-      <div className="calendar-buttons">
-        <button onClick={handleAddToCalendar}>Add to Calendar</button>
+      <div className={styles.calendarSection}>
+        <button className={styles.calendarButton} onClick={handleAddToCalendar}>
+          Add to Calendar
+        </button>
       </div>
 
       {user && isStaff && (
-        <button>
-          <Link to={`/amend-event/${event_id}`}>Amend Event</Link>
-        </button>
+        <div className={styles.amendSection}>
+          <Link to={`/amend-event/${event_id}`} className={styles.amendLink}>
+            Amend Event
+          </Link>
+        </div>
       )}
 
       {user && !isStaff && (
-        <div className="attendance-buttons">
+        <div className={styles.attendanceButtons}>
           <button
-            className="login-button"
+            className={styles.attendButton}
             disabled={alreadyAttending}
             onClick={handleAttendEvent}
           >
             Attend Event
           </button>
           <button
-            className="login-button"
+            className={styles.cancelButton}
             disabled={!alreadyAttending}
             onClick={handleCancelEvent}
           >
@@ -160,23 +169,26 @@ const SingleEvent: React.FC = () => {
         </div>
       )}
 
-      <div className="registered-users-section">
-        <h2>Who's going?</h2>
+      <div className={styles.registeredUsers}>
+        <h2 className={styles.registeredTitle}>Who's going?</h2>
         {usersLoading ? (
-          <p>Loading registered users...</p>
+          <div className={styles.loadingContainer}>
+            <div className={styles.spinner}></div>
+            <p className={styles.loadingText}>Loading registered users...</p>
+          </div>
         ) : usersError ? (
-          <p>{usersError}</p>
+          <p className={styles.errorText}>{usersError}</p>
         ) : registeredUsers.length > 0 ? (
-          <ul>
+          <ul className={styles.userList}>
             {registeredUsers.map((attendee) => (
-              <li key={attendee.user_id}>
+              <li key={attendee.user_id} className={styles.userItem}>
                 {attendee.first_name} {attendee.last_name} (
                 <em>{attendee.username}</em>)
               </li>
             ))}
           </ul>
         ) : (
-          <p>Currently no one signed up.</p>
+          <p className={styles.noUsers}>Currently no one signed up.</p>
         )}
       </div>
     </div>

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getSingleEvent, updateEvent } from "../../../api";
 import { fetchGeocode } from "../../utils/geocoderApi";
 import { Event } from "../../types/types";
+import styles from "./AmendEvent.module.css";
 
 const formatDateForInput = (ms: number): string => {
   const date = new Date(ms);
@@ -116,36 +117,55 @@ const AmendEvent: React.FC = () => {
   };
 
   if (!eventData) {
-    return <p>Loading event details...</p>;
+    return (
+      <div className={styles.loadingContainer}>
+        <div className={styles.spinner}></div>
+        <p className={styles.loadingText}>Loading event details...</p>
+      </div>
+    );
   }
 
   return (
-    <div>
-      <h1>Amend Event</h1>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Title:</label>
+    <div className={styles.container}>
+      <h1 className={styles.header}>Amend Event</h1>
+      {error && <p className={styles.error}>{error}</p>}
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.field}>
+          <label htmlFor="title" className={styles.label}>
+            Title
+          </label>
           <input
+            id="title"
             type="text"
             value={title}
             placeholder={eventData.title}
             onChange={(e) => setTitle(e.target.value)}
+            className={styles.input}
           />
         </div>
-        <div>
-          <label>Description:</label>
+
+        <div className={styles.field}>
+          <label htmlFor="description" className={styles.label}>
+            Description
+          </label>
           <textarea
+            id="description"
             value={description}
             placeholder={eventData.description}
             onChange={(e) => setDescription(e.target.value)}
+            className={styles.textarea}
           />
         </div>
-        <div>
-          <label>Event Type:</label>
+
+        <div className={styles.field}>
+          <label htmlFor="eventType" className={styles.label}>
+            Event Type
+          </label>
           <select
+            id="eventType"
             value={eventType}
             onChange={(e) => setEventType(e.target.value)}
+            className={styles.select}
           >
             <option value="">Select event type</option>
             <option value="Tech">Technology</option>
@@ -153,40 +173,65 @@ const AmendEvent: React.FC = () => {
             <option value="Culture">Culture</option>
           </select>
         </div>
-        <div>
-          <label>Details:</label>
+
+        <div className={styles.field}>
+          <label htmlFor="details" className={styles.label}>
+            Details
+          </label>
           <textarea
+            id="details"
             value={details}
             placeholder={eventData.details}
             onChange={(e) => setDetails(e.target.value)}
+            className={styles.textarea}
           />
         </div>
-        <div>
-          <label>Address:</label>
+
+        <div className={styles.field}>
+          <label htmlFor="address" className={styles.label}>
+            Address
+          </label>
           <input
+            id="address"
             type="text"
             value={address}
             placeholder={eventData.address}
             onChange={(e) => setAddress(e.target.value)}
+            className={styles.input}
           />
         </div>
-        <div>
-          <label>Start Time:</label>
+
+        <div className={styles.field}>
+          <label htmlFor="startTime" className={styles.label}>
+            Start Time
+          </label>
           <input
+            id="startTime"
             type="datetime-local"
             value={startTime}
             onChange={(e) => setStartTime(e.target.value)}
+            className={styles.input}
           />
         </div>
-        <div>
-          <label>End Time:</label>
+
+        <div className={styles.field}>
+          <label htmlFor="endTime" className={styles.label}>
+            End Time
+          </label>
           <input
+            id="endTime"
             type="datetime-local"
             value={endTime}
             onChange={(e) => setEndTime(e.target.value)}
+            className={styles.input}
           />
         </div>
-        <button type="submit" disabled={loading}>
+
+        <button
+          type="submit"
+          className={styles.submitButton}
+          disabled={loading}
+        >
           {loading ? "Updating..." : "Update Event"}
         </button>
       </form>

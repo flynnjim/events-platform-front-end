@@ -4,10 +4,10 @@ import { createEvent } from "../../../api";
 import { fetchGeocode } from "../../utils/geocoderApi";
 import { useAuth } from "../../contexts/AuthContex";
 import { NewEventData } from "../../types/types";
+import styles from "./AddEvent.module.css";
 
 const AddEventPage: React.FC = () => {
   const { user } = useAuth();
-
   const created_by = user?.user_id || 0;
   const navigate = useNavigate();
 
@@ -52,11 +52,9 @@ const AddEventPage: React.FC = () => {
 
       const createdEvent = await createEvent(created_by, newEvent);
       console.log("Event created:", createdEvent);
-
       navigate(`/event/${createdEvent.event_id}`);
     } catch (err: unknown) {
       console.error(err);
-
       if (err instanceof Error) {
         setError(err.message);
       } else {
@@ -68,32 +66,46 @@ const AddEventPage: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Add Event</h1>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Title:</label>
+    <div className={styles.container}>
+      <h1 className={styles.header}>Add Event</h1>
+      {error && <p className={styles.error}>{error}</p>}
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.field}>
+          <label htmlFor="title" className={styles.label}>
+            Title
+          </label>
           <input
+            id="title"
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            className={styles.input}
             required
           />
         </div>
-        <div>
-          <label>Description:</label>
+
+        <div className={styles.field}>
+          <label htmlFor="description" className={styles.label}>
+            Description
+          </label>
           <textarea
+            id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            className={styles.textarea}
             required
           />
         </div>
-        <div>
-          <label>Event Type:</label>
+
+        <div className={styles.field}>
+          <label htmlFor="eventType" className={styles.label}>
+            Event Type
+          </label>
           <select
+            id="eventType"
             value={eventType}
             onChange={(e) => setEventType(e.target.value)}
+            className={styles.select}
             required
           >
             <option value="">Select event type</option>
@@ -102,42 +114,67 @@ const AddEventPage: React.FC = () => {
             <option value="Culture">Culture</option>
           </select>
         </div>
-        <div>
-          <label>Details:</label>
+
+        <div className={styles.field}>
+          <label htmlFor="details" className={styles.label}>
+            Details
+          </label>
           <textarea
+            id="details"
             value={details}
             onChange={(e) => setDetails(e.target.value)}
+            className={styles.textarea}
             required
           />
         </div>
-        <div>
-          <label>Address:</label>
+
+        <div className={styles.field}>
+          <label htmlFor="address" className={styles.label}>
+            Address
+          </label>
           <input
+            id="address"
             type="text"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
+            className={styles.input}
             required
           />
         </div>
-        <div>
-          <label>Start Time:</label>
+
+        <div className={styles.field}>
+          <label htmlFor="startTime" className={styles.label}>
+            Start Time
+          </label>
           <input
+            id="startTime"
             type="datetime-local"
             value={startTime}
             onChange={(e) => setStartTime(e.target.value)}
+            className={styles.input}
             required
           />
         </div>
-        <div>
-          <label>End Time:</label>
+
+        <div className={styles.field}>
+          <label htmlFor="endTime" className={styles.label}>
+            End Time
+          </label>
           <input
+            id="endTime"
             type="datetime-local"
             value={endTime}
             onChange={(e) => setEndTime(e.target.value)}
+            className={styles.input}
             required
           />
         </div>
-        <button type="submit" disabled={loading}>
+
+        <button
+          type="submit"
+          className={styles.submitButton}
+          disabled={loading}
+        >
           {loading ? "Submitting..." : "Add Event"}
         </button>
       </form>
