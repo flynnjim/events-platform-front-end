@@ -147,3 +147,11 @@ export const createEvent = async (
   );
   return response.data.event;
 };
+
+export const updateEvent = async (updatedEvent: Event): Promise<Event> => {
+  const response: AxiosResponse<{ event: Event }> = await eventRightApi.patch(
+    "/events",
+    updatedEvent
+  );
+  return response.data.event;
+};
