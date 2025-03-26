@@ -1,6 +1,6 @@
 import "./SingleEvent.css";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { Event, User } from "../../types/types";
 import {
   getSingleEvent,
@@ -134,6 +134,12 @@ const SingleEvent: React.FC = () => {
       <div className="calendar-buttons">
         <button onClick={handleAddToCalendar}>Add to Calendar</button>
       </div>
+
+      {user && isStaff && (
+        <button>
+          <Link to={`/amend-event/${event_id}`}>Amend Event</Link>
+        </button>
+      )}
 
       {user && !isStaff && (
         <div className="attendance-buttons">
