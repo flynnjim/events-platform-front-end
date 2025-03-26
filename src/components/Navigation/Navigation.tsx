@@ -1,32 +1,40 @@
-import "./Navigation.css";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContex";
+import styles from "./Navigation.module.css";
 
-const Navigation = () => {
+const Navigation: React.FC = () => {
   const { isStaff } = useAuth();
 
   return (
-    <header className="navigation-header">
-      <nav className="navigation">
-        <ul className="navigation-menu">
-          <li>
-            <Link to="/" className="nav-link">
+    <header className={styles.header}>
+      <nav className={styles.nav}>
+        <ul className={styles.menu}>
+          <li className={styles.menuItem}>
+            <Link to="/" className={styles.link}>
               Home
             </Link>
           </li>
-
-          <li>
-            <Link to="/events/tech">Tech</Link>
+          <li className={styles.menuItem}>
+            <Link to="/events/tech" className={styles.link}>
+              Tech
+            </Link>
           </li>
-          <li>
-            <Link to="/events/sport">Sport</Link>
+          <li className={styles.menuItem}>
+            <Link to="/events/sport" className={styles.link}>
+              Sport
+            </Link>
           </li>
-          <li>
-            <Link to="/events/culture">Culture</Link>
+          <li className={styles.menuItem}>
+            <Link to="/events/culture" className={styles.link}>
+              Culture
+            </Link>
           </li>
           {isStaff && (
-            <li>
-              <Link to="/add-event">Add Event</Link>
+            <li className={styles.menuItem}>
+              <Link to="/add-event" className={styles.link}>
+                Add Event
+              </Link>
             </li>
           )}
         </ul>

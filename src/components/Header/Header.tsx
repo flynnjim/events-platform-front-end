@@ -1,19 +1,24 @@
-import "./Header.css";
-import { IoLogInOutline } from "react-icons/io5";
+import React from "react";
 import { Link } from "react-router-dom";
+import { IoLogInOutline } from "react-icons/io5";
+import styles from "./Header.module.css";
 
-const Header = () => {
+const Header: React.FC = () => {
   return (
-    <div className="header">
-      <h1>EventRight</h1>
-      <div className="header-signin">
-        <p>
-          <Link to="/login" className="signin-link">
-            <IoLogInOutline className="icon" />
-          </Link>
-        </p>
+    <header className={styles.header}>
+      <div className={styles.brand}>
+        <Link to="/" className={styles.brandLink}>
+          <h1 className={styles.title}>EventRight</h1>
+          <p className={styles.tagline}>Connecting Moments &amp; Memories</p>
+        </Link>
       </div>
-    </div>
+      <div className={styles.auth}>
+        <Link to="/login" className={styles.authLink}>
+          <IoLogInOutline className={styles.icon} />
+          <span className={styles.authText}>Sign In</span>
+        </Link>
+      </div>
+    </header>
   );
 };
 
