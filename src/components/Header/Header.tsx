@@ -2,8 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { IoLogInOutline } from "react-icons/io5";
 import styles from "./Header.module.css";
+import { useAuth } from "../../contexts/AuthContex";
 
 const Header: React.FC = () => {
+  const { user } = useAuth();
+
   return (
     <header className={styles.header}>
       <div className={styles.brand}>
@@ -15,7 +18,9 @@ const Header: React.FC = () => {
       <div className={styles.auth}>
         <Link to="/login" className={styles.authLink}>
           <IoLogInOutline className={styles.icon} />
-          <span className={styles.authText}>Sign In</span>
+          <span className={styles.authText}>
+            {user ? "Sign Out" : "Sign In"}
+          </span>
         </Link>
       </div>
     </header>

@@ -34,7 +34,7 @@ const Map: React.FC<MapProps> = ({ location }) => {
         />
         <Marker position={[location.latitude, location.longitude]}>
           <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
+            Event is here! <br /> Come on by.
           </Popup>
         </Marker>
         <CenterMapOnPopup location={location} />
