@@ -3,31 +3,39 @@ import { EventCardProps } from "../../types/types";
 import { FaCodeFork } from "react-icons/fa6";
 import { MdOutlineSportsMartialArts } from "react-icons/md";
 import { IoColorPaletteOutline } from "react-icons/io5";
-
-import "./EventCard.css";
-import Map from "../Map/Map";
 import { Link } from "react-router-dom";
+import Map from "../Map/Map";
+import styles from "./EventCard.module.css";
 
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
+  const renderIcon = () => {
+    if (event.event_type === "Tech") {
+      return <FaCodeFork className={styles.icon} />;
+    } else if (event.event_type === "Sport") {
+      return <MdOutlineSportsMartialArts className={styles.icon} />;
+    } else if (event.event_type === "Culture") {
+      return <IoColorPaletteOutline className={styles.icon} />;
+    }
+    return null;
+  };
+
   return (
-    <Link to={`/event/${event.event_id}`} className="event-card-link">
-      <div className="event-card">
-        <div className="event-card-details">
-          <header className="details-header">
-            <p>{event.title}</p>
-            {event.event_type === "Tech" ? (
-              <FaCodeFork className="tech-icon" />
-            ) : event.event_type === "Sport" ? (
-              <MdOutlineSportsMartialArts className="sport-icon" />
-            ) : event.event_type === "Culture" ? (
-              <IoColorPaletteOutline className="culture-icon" />
-            ) : (
-              <p>No icon available</p>
-            )}
+    <Link to={`/event/${event.event_id}`} className={styles.cardLink}>
+      <div className={styles.card}>
+        <div className={styles.cardDetails}>
+          <header className={styles.cardHeader}>
+            <h2 className={styles.title}>{event.title}</h2>
+            <div className={styles.iconContainer}>{renderIcon()}</div>
           </header>
-          <main className="card-description"></main>
+          {event.description && (
+            <p className={styles.description}>
+              {event.description.length > 100
+                ? event.description.substring(0, 100) + "..."
+                : event.description}
+            </p>
+          )}
         </div>
-        <div className="event-card-map">
+        <div className={styles.cardMap}>
           <Map location={event.location} />
         </div>
       </div>

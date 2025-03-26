@@ -1,7 +1,7 @@
-import { useState } from "react";
-import "./Login.css";
+import React, { useState } from "react";
 import { loginUser, loginStaff } from "../../../api";
 import { useAuth } from "../../contexts/AuthContex";
+import styles from "./Login.module.css";
 
 interface LoginResponseUser {
   user_id: number;
@@ -12,7 +12,7 @@ interface LoginResponseUser {
   password_hash: string;
 }
 
-const Login = () => {
+const Login: React.FC = () => {
   const [role, setRole] = useState<"staff" | "user">("user");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -56,70 +56,86 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      {!user && <h1>Login</h1>}
+    <div className={styles.container}>
+      {!user ? <h1 className={styles.title}>Log In</h1> : null}
       {user ? (
-        <div className="logged-in">
-          <p>Welcome, {user.first_name}!</p>
-          <button className="login-button" onClick={handleLogout}>
+        <div className={styles.loggedIn}>
+          <p className={styles.welcome}>Welcome, {user.first_name}!</p>
+          <button className={styles.logoutButton} onClick={handleLogout}>
             Logout
           </button>
         </div>
       ) : (
-        <>
-          <form className="login-form" onSubmit={handleSubmit}>
-            <label>
-              Select Role:
+        <div className={styles.formWrapper}>
+          <form className={styles.form} onSubmit={handleSubmit}>
+            <div className={styles.field}>
+              <label htmlFor="role" className={styles.label}>
+                Select Role:
+              </label>
               <select
+                id="role"
                 value={role}
                 onChange={(e) => setRole(e.target.value as "staff" | "user")}
+                className={styles.select}
               >
                 <option value="user">User</option>
                 <option value="staff">Staff</option>
               </select>
-            </label>
+            </div>
 
             {role === "user" ? (
-              <label>
-                Username:
+              <div className={styles.field}>
+                <label htmlFor="username" className={styles.label}>
+                  Username:
+                </label>
                 <input
+                  id="username"
                   type="text"
                   placeholder="Enter your username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  className={styles.input}
                   required
                 />
-              </label>
+              </div>
             ) : (
-              <label>
-                Email:
+              <div className={styles.field}>
+                <label htmlFor="email" className={styles.label}>
+                  Email:
+                </label>
                 <input
+                  id="email"
                   type="email"
                   placeholder="Enter your staff email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  className={styles.input}
                   required
                 />
-              </label>
+              </div>
             )}
 
-            <label>
-              Password:
+            <div className={styles.field}>
+              <label htmlFor="password" className={styles.label}>
+                Password:
+              </label>
               <input
+                id="password"
                 type="password"
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                className={styles.input}
                 required
               />
-            </label>
+            </div>
 
-            <button className="login-button" type="submit">
+            <button type="submit" className={styles.submitButton}>
               Log In
             </button>
           </form>
-          {error && <p style={{ color: "red" }}>{error}</p>}
-        </>
+          {error && <p className={styles.error}>{error}</p>}
+        </div>
       )}
     </div>
   );
