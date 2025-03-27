@@ -9,6 +9,19 @@ export interface Event {
   created_by: number;
   start_time: number;
   end_time: number;
+  image: string;
+}
+
+export interface NewEventData {
+  title: string;
+  description: string;
+  event_type: string;
+  details: string;
+  address: string;
+  start_time: number;
+  end_time: number;
+  location: { latitude: number; longitude: number };
+  image: string;
 }
 
 export interface User {
@@ -38,18 +51,4 @@ export interface AuthContextProps {
   isStaff: boolean;
   setUser: (user: User | null) => void;
   setIsStaff: (isStaff: boolean) => void;
-}
-
-export interface NewEventData {
-  title: string;
-  description: string;
-  event_type: string;
-  details: string;
-  address: string;
-  start_time: number;
-  end_time: number;
-  location: {
-    latitude: number;
-    longitude: number;
-  };
 }

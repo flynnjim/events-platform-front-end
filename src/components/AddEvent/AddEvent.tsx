@@ -4,13 +4,13 @@ import { createEvent } from "../../../api";
 import { fetchGeocode } from "../../utils/geocoderApi";
 import { useAuth } from "../../contexts/AuthContex";
 import { NewEventData } from "../../types/types";
+import CloudinaryImageUpload from "../CloudinaryImageUpload/CloudinaryImageUpload";
 import styles from "./AddEvent.module.css";
 
 const AddEventPage: React.FC = () => {
   const { user } = useAuth();
   const created_by = user?.user_id || 0;
   const navigate = useNavigate();
-
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [eventType, setEventType] = useState<string>("");
@@ -18,6 +18,7 @@ const AddEventPage: React.FC = () => {
   const [address, setAddress] = useState<string>("");
   const [startTime, setStartTime] = useState<string>("");
   const [endTime, setEndTime] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
@@ -25,17 +26,14 @@ const AddEventPage: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     setError("");
-
     try {
       const startTimestamp = new Date(startTime).getTime();
       const endTimestamp = new Date(endTime).getTime();
-
       const geocodeResults = await fetchGeocode(address);
       if (!geocodeResults || geocodeResults.length === 0) {
         throw new Error("No geocode results found for the provided address.");
       }
       const { lat, lon } = geocodeResults[0];
-
       const newEvent: NewEventData = {
         title,
         description,
@@ -48,13 +46,11 @@ const AddEventPage: React.FC = () => {
           latitude: parseFloat(lat),
           longitude: parseFloat(lon),
         },
+        image: imageUrl,
       };
-
       const createdEvent = await createEvent(created_by, newEvent);
-      console.log("Event created:", createdEvent);
       navigate(`/event/${createdEvent.event_id}`);
     } catch (err: unknown) {
-      console.error(err);
       if (err instanceof Error) {
         setError(err.message);
       } else {
@@ -83,7 +79,6 @@ const AddEventPage: React.FC = () => {
             required
           />
         </div>
-
         <div className={styles.field}>
           <label htmlFor="description" className={styles.label}>
             Description
@@ -96,7 +91,6 @@ const AddEventPage: React.FC = () => {
             required
           />
         </div>
-
         <div className={styles.field}>
           <label htmlFor="eventType" className={styles.label}>
             Event Type
@@ -114,7 +108,6 @@ const AddEventPage: React.FC = () => {
             <option value="Culture">Culture</option>
           </select>
         </div>
-
         <div className={styles.field}>
           <label htmlFor="details" className={styles.label}>
             Details
@@ -127,7 +120,6 @@ const AddEventPage: React.FC = () => {
             required
           />
         </div>
-
         <div className={styles.field}>
           <label htmlFor="address" className={styles.label}>
             Address
@@ -141,7 +133,6 @@ const AddEventPage: React.FC = () => {
             required
           />
         </div>
-
         <div className={styles.field}>
           <label htmlFor="startTime" className={styles.label}>
             Start Time
@@ -155,7 +146,6 @@ const AddEventPage: React.FC = () => {
             required
           />
         </div>
-
         <div className={styles.field}>
           <label htmlFor="endTime" className={styles.label}>
             End Time
@@ -169,7 +159,7 @@ const AddEventPage: React.FC = () => {
             required
           />
         </div>
-
+        <CloudinaryImageUpload onUpload={(url: string) => setImageUrl(url)} />
         <button
           type="submit"
           className={styles.submitButton}
