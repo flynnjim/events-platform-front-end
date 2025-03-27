@@ -1,7 +1,10 @@
 .header {
+  position: sticky;
+  top: 70px;
   background: linear-gradient(90deg, #ffffff, #f9f9f9);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 1rem 2rem;
+  padding: 0.5rem 2rem;
+  z-index: 990;
 }
 
 .nav {
@@ -61,5 +64,17 @@
   }
   .menuItem:not(:last-child)::after {
     height: 16px;
+  }
+}
+
+@media (min-width: 768px) {
+  .header {
+    top: 80px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .header {
+    top: 80px;
   }
 }

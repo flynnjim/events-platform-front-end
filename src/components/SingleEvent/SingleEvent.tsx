@@ -13,6 +13,9 @@ import { getGoogleCalendarLink } from "../../utils/calendarUtils";
 import { useAuth } from "../../contexts/AuthContex";
 import styles from "./SingleEvent.module.css";
 
+const getOptimizedImageUrl = (url: string, width: number = 800): string =>
+  url.replace("/upload/", `/upload/w_${width},q_auto,f_auto/`);
+
 const SingleEvent: React.FC = () => {
   const [eventData, setEventData] = useState<Event | null>(null);
   const [registeredUsers, setRegisteredUsers] = useState<User[]>([]);
@@ -124,6 +127,16 @@ const SingleEvent: React.FC = () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>{eventData.title}</h1>
+      {eventData.image && (
+        <div className={styles.imageWrapper}>
+          <img
+            src={getOptimizedImageUrl(eventData.image, 800)}
+            alt={eventData.title}
+            className={styles.eventImage}
+            loading="lazy"
+          />
+        </div>
+      )}
       <p className={styles.time}>
         {formatEventTimeRange(eventData.start_time, eventData.end_time)}
       </p>
@@ -135,13 +148,11 @@ const SingleEvent: React.FC = () => {
           <Map location={eventData.location} />
         </div>
       )}
-
       <div className={styles.calendarSection}>
         <button className={styles.calendarButton} onClick={handleAddToCalendar}>
           Add to Calendar
         </button>
       </div>
-
       {user && isStaff && (
         <div className={styles.amendSection}>
           <Link to={`/amend-event/${event_id}`} className={styles.amendLink}>
@@ -149,7 +160,6 @@ const SingleEvent: React.FC = () => {
           </Link>
         </div>
       )}
-
       {user && !isStaff && (
         <div className={styles.attendanceButtons}>
           <button
@@ -168,7 +178,6 @@ const SingleEvent: React.FC = () => {
           </button>
         </div>
       )}
-
       <div className={styles.registeredUsers}>
         <h2 className={styles.registeredTitle}>Who's going?</h2>
         {usersLoading ? (

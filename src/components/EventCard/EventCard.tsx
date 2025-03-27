@@ -7,6 +7,10 @@ import { Link } from "react-router-dom";
 import Map from "../Map/Map";
 import styles from "./EventCard.module.css";
 
+const getOptimizedImageUrl = (url: string, width: number = 300): string => {
+  return url.replace("/upload/", `/upload/w_${width},q_auto,f_auto/`);
+};
+
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
   const renderIcon = () => {
     if (event.event_type === "Tech") {
@@ -22,6 +26,20 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
   return (
     <Link to={`/event/${event.event_id}`} className={styles.cardLink}>
       <div className={styles.card}>
+        {event.image ? (
+          <div className={styles.cardImage}>
+            <img
+              src={getOptimizedImageUrl(event.image, 300)}
+              alt={event.title}
+              className={styles.eventImage}
+              loading="lazy"
+            />
+          </div>
+        ) : (
+          <div className={styles.cardMap}>
+            <Map location={event.location} />
+          </div>
+        )}
         <div className={styles.cardDetails}>
           <header className={styles.cardHeader}>
             <h2 className={styles.title}>{event.title}</h2>
@@ -34,9 +52,6 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
                 : event.description}
             </p>
           )}
-        </div>
-        <div className={styles.cardMap}>
-          <Map location={event.location} />
         </div>
       </div>
     </Link>
