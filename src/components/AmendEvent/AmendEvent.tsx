@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getSingleEvent, updateEvent } from "../../../api";
 import { fetchGeocode } from "../../utils/geocoderApi";
 import { Event } from "../../types/types";
+import CloudinaryImageUpload from "../CloudinaryImageUpload/CloudinaryImageUpload";
 import styles from "./AmendEvent.module.css";
 
 const formatDateForInput = (ms: number): string => {
@@ -14,7 +15,6 @@ const formatDateForInput = (ms: number): string => {
 const AmendEvent: React.FC = () => {
   const { event_id } = useParams<{ event_id: string }>();
   const navigate = useNavigate();
-
   const [eventData, setEventData] = useState<Event | null>(null);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -23,6 +23,7 @@ const AmendEvent: React.FC = () => {
   const [address, setAddress] = useState<string>("");
   const [startTime, setStartTime] = useState<string>("");
   const [endTime, setEndTime] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
@@ -40,6 +41,7 @@ const AmendEvent: React.FC = () => {
             setAddress(ev.address);
             setStartTime(formatDateForInput(ev.start_time));
             setEndTime(formatDateForInput(ev.end_time));
+            setImageUrl(ev.image);
           })
           .catch((err) => {
             console.error("Error fetching event:", err);
@@ -66,7 +68,6 @@ const AmendEvent: React.FC = () => {
       const updatedEventType = eventType || eventData.event_type;
       const updatedDetails = details || eventData.details;
       const updatedAddress = address || eventData.address;
-
       const updatedStartTime =
         startTime.trim() !== ""
           ? new Date(startTime).getTime()
@@ -99,13 +100,12 @@ const AmendEvent: React.FC = () => {
         start_time: updatedStartTime,
         end_time: updatedEndTime,
         location: updatedLocation,
+        image: imageUrl || eventData.image,
       };
 
       const result = await updateEvent(updatedEvent);
-      console.log("Event updated:", result);
       navigate(`/event/${result.event_id}`);
     } catch (err: unknown) {
-      console.error(err);
       if (err instanceof Error) {
         setError(err.message);
       } else {
@@ -143,7 +143,6 @@ const AmendEvent: React.FC = () => {
             className={styles.input}
           />
         </div>
-
         <div className={styles.field}>
           <label htmlFor="description" className={styles.label}>
             Description
@@ -156,7 +155,6 @@ const AmendEvent: React.FC = () => {
             className={styles.textarea}
           />
         </div>
-
         <div className={styles.field}>
           <label htmlFor="eventType" className={styles.label}>
             Event Type
@@ -173,7 +171,6 @@ const AmendEvent: React.FC = () => {
             <option value="Culture">Culture</option>
           </select>
         </div>
-
         <div className={styles.field}>
           <label htmlFor="details" className={styles.label}>
             Details
@@ -186,7 +183,6 @@ const AmendEvent: React.FC = () => {
             className={styles.textarea}
           />
         </div>
-
         <div className={styles.field}>
           <label htmlFor="address" className={styles.label}>
             Address
@@ -200,7 +196,6 @@ const AmendEvent: React.FC = () => {
             className={styles.input}
           />
         </div>
-
         <div className={styles.field}>
           <label htmlFor="startTime" className={styles.label}>
             Start Time
@@ -213,7 +208,6 @@ const AmendEvent: React.FC = () => {
             className={styles.input}
           />
         </div>
-
         <div className={styles.field}>
           <label htmlFor="endTime" className={styles.label}>
             End Time
@@ -226,7 +220,11 @@ const AmendEvent: React.FC = () => {
             className={styles.input}
           />
         </div>
-
+        <div className={styles.field}>
+          <CloudinaryImageUpload
+            onUpload={(newUrl: string) => setImageUrl(newUrl)}
+          />
+        </div>
         <button
           type="submit"
           className={styles.submitButton}
