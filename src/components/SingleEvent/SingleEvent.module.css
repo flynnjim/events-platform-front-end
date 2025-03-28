@@ -154,6 +154,37 @@
   margin-bottom: 0.5rem;
 }
 
+.attendeesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.attendeeBadge {
+  display: flex;
+  align-items: center;
+  background-color: #f2f2f2;
+  border: 1px solid #ddd;
+  color: #333;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.6rem;
+  transition: transform 0.2s ease;
+}
+
+.attendeeBadge:hover {
+  transform: scale(1.05);
+}
+
+.userIcon {
+  margin-right: 0.5rem;
+  font-size: 1.8rem;
+  color: #ce1d1d;
+}
+
 .loadingContainer {
   display: flex;
   flex-direction: column;

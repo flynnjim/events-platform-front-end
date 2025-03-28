@@ -1,0 +1,39 @@
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.message {
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.8rem;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+.homeLink {
+  text-decoration: none;
+  font-size: 1.8rem;
+  color: #ce1d1d;
+  font-family: "Open Sans", sans-serif;
+  border: 2px solid #ce1d1d;
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.homeLink:hover {
+  background-color: #ce1d1d;
+  color: #fff;
+}
