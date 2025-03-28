@@ -11,6 +11,7 @@ import Map from "../Map/Map";
 import { formatEventTimeRange } from "../../utils/formatEventTime";
 import { getGoogleCalendarLink } from "../../utils/calendarUtils";
 import { useAuth } from "../../contexts/AuthContex";
+import { FaUser } from "react-icons/fa";
 import styles from "./SingleEvent.module.css";
 
 const getOptimizedImageUrl = (url: string, width: number = 800): string =>
@@ -188,14 +189,14 @@ const SingleEvent: React.FC = () => {
         ) : usersError ? (
           <p className={styles.errorText}>{usersError}</p>
         ) : registeredUsers.length > 0 ? (
-          <ul className={styles.userList}>
+          <div className={styles.attendeesContainer}>
             {registeredUsers.map((attendee) => (
-              <li key={attendee.user_id} className={styles.userItem}>
-                {attendee.first_name} {attendee.last_name} (
-                <em>{attendee.username}</em>)
-              </li>
+              <div key={attendee.user_id} className={styles.attendeeBadge}>
+                <FaUser className={styles.userIcon} />
+                <span>{attendee.first_name}</span>
+              </div>
             ))}
-          </ul>
+          </div>
         ) : (
           <p className={styles.noUsers}>Currently no one signed up.</p>
         )}
