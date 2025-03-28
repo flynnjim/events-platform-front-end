@@ -22,7 +22,7 @@
 
 ## Introduction
 
-EventRight is an events platform that empowers users to view events, register their attendance, and add events to their Google Calendar. Staff members can log in securely to create and edit events. This frontend application consumes our backend Events Platform API to deliver live event data and enable seamless user interaction.
+EventRight is an events platform that empowers users to view events, register their attendance, and add events to their Google Calendar. Staff members can log in securely to create and edit events. This frontend application consumes my [backend](https://github.com/flynnjim/events-platform-be) Events Platform API to deliver live event data and enable seamless user interaction.
 
 ## Project Overview
 
